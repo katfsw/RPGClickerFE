@@ -36,3 +36,49 @@
     transform: rotate(360deg);
   }
 }
+
+.navbar{
+  background-color: #080F22;
+  color: #8CABE6;
+  display:flex;
+  justify-content: space-evenly;
+  padding: 2rem 0;
+}
+
+.navbar > a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.4rem;
+}
+
+body{
+  background-color: #172136;
+}
+
+.registerform{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  margin: 5rem 2rem;
+}
+.registerform > input {
+  min-width: 80%;
+  margin: 0.8rem;
+  padding: 0.5rem;
+  font-size: 1.3rem;
+  text-align: center;
+  border-radius: 1.5rem;
+  background-color: #313E59;
+  border: 0.2em solid transparent;
+}
+.submitbutton{
+  background-color: #222E45 !important;
+  border: 0.2em solid transparent;
+  color: white;
+}
+.submitbutton:hover{
+  cursor:pointer;
+  background-color: #7B9CB3 !important;
+  font-size: 1.4rem;
+}
