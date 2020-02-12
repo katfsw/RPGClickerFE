@@ -1,53 +1,41 @@
-import React from 'react'
-import { validateAll } from 'indicative';
+import React, {useState} from "react";
+import axios from 'axios';
 
-class LoginForm extends React.Component{
-  constructor() {
-    super()
-    
-      this.state = {
-      name:'',
-      email:'',
-      password:'',
-      password_confirmation:''
-  }
-}
-  handleInputChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
-  }
+const LoginForm = (props) => {
 
-  handleSubmit = (e) => {
-    e.preventDefault()
-    console.log("State", this.state)
+    const [login, setLogin] = useState({ username:"", password:""})
 
-    const data = this.state;
-
-    const rules = {
-      name: 'required|string',
-      email: 'required|email',
-      password: 'required|string|min:6|confirmed'
+    const handleInputChange = (e) => {
+       setLogin({ ...login, [e.target.name]: e.target.value });
+        console.log(login)
     }
 
-    validateAll(data, rules)
-    .then(()=>{
-      console.log("Success!")
-    })
-    .catch(err=>{
-      console.log(err)
-    })
-  }
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        console.log("Login State", login)
 
-render(){
-  return(
-      <div className="registerform" onSubmit={this.handleSubmit}>
-        <input type="text" placeHolder="Username" name="name" onChange={this.handleInputChange} />
-        <input type="password" placeHolder="Password" name="password" onChange={this.handleInputChange}/>
-        <input type="submit" value="Login" className="submitbutton"/>
-      </div>
-    )
-  }
-}
+        axios
+        .post('https://cors-anywhere.herokuapp.com/https://rpgclicker.herokuapp.com/api/auth/login', login)
+        .then(res=>{
+          console.log(res)
+          props.history.push('/dashboard')
+        })
+        .catch(err=>{
+          console.log(err)
+        })
+        }
+    
 
-export default LoginForm
+   return(
+     
+    <div className="registerform" >
+      <form onSubmit={handleSubmit}>
+      <input type="text" placeHolder="Username" name="username" onChange={handleInputChange} />
+      <input type="password" placeHolder="Password" name="password" onChange={handleInputChange}/>
+      <input type="submit" value="Login" className="submitbutton"/>
+      </form>
+    </div>
+   )
+};
+
+export default LoginForm;

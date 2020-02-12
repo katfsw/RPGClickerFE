@@ -1,55 +1,43 @@
-import React from 'react'
-import { validateAll } from 'indicative';
+import React, {useState} from "react";
+import axios from 'axios';
 
-class RegisterForm extends React.Component{
-  constructor() {
-    super()
-    
-      this.state = {
-      name:'',
-      email:'',
-      password:'',
-      password_confirmation:''
-  }
-}
-  handleInputChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
-  }
+const RegisterForm = (props) => {
 
-  handleSubmit = (e) => {
-    e.preventDefault()
-    console.log("State", this.state)
+    const [register, setRegister] = useState({ username:"", password:""})
 
-    const data = this.state;
-
-    const rules = {
-      name: 'required|string',
-      email: 'required|email',
-      password: 'required|string|min:6|confirmed'
+    const handleInputChange = (e) => {
+       setRegister({ ...register, [e.target.name]: e.target.value });
+        console.log(register)
     }
 
-    validateAll(data, rules)
-    .then(()=>{
-      console.log("Success!")
-    })
-    .catch(err=>{
-      console.log(err)
-    })
-  }
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        console.log("Login State", register)
 
-render(){
-  return(
-      <div className="registerform" onSubmit={this.handleSubmit}>
-        <input type="text" placeHolder="Username" name="name" onChange={this.handleInputChange} />
-        <input type="email" placeHolder="Email Address" onChange={this.handleInputChange}/>
-        <input type="password" placeHolder="Password" name="password" onChange={this.handleInputChange}/>
-        <input type="password" placeHolder="Confirm Password" name="password_confirmation" onChange={this.handleInputChange}/>
-        <input type="submit" value="Register" className="submitbutton"/>
-      </div>
-    )
-  }
-}
+        axios
+        .post('https://cors-anywhere.herokuapp.com/https://rpgclicker.herokuapp.com/api/auth/register', register)
+        .then(res=>{
+            console.log(res)
+            props.history.push('/login')
+        })
+        .catch(err=>{
+            console.log(err)
+        })
+        }
+    
 
-export default RegisterForm
+   return(
+     
+    <div className="registerform" onSubmit={handleSubmit}>
+        <form>
+            <input type="text" placeHolder="Username" name="username" onChange={handleInputChange} />
+            <input type="email" placeHolder="Email Address" onChange={handleInputChange}/>
+            <input type="password" placeHolder="Password" name="password" onChange={handleInputChange}/>
+            {/* <input type="password" placeHolder="Confirm Password" onChange={handleInputChange}/> */}
+            <input type="submit" value="Register" className="submitbutton"/>
+        </form>
+  </div>
+   )
+};
+
+export default RegisterForm;

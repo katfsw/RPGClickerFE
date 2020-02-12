@@ -1,10 +1,10 @@
 import React from 'react';
 import { Route, Switch } from "react-router-dom";
-import NavBar from './components/NavBar.js'
+import NavBar from './components/NavBar'
 import RegisterForm from './components/RegisterForm';
-import LoginForm from './components/LoginForm.js';
-import AccountDashboard from './components/AccountDashboard.js';
-import Play from './components/Play.js';
+import LoginForm from './components/LoginForm';
+import AccountDashboard from './components/AccountDashboard';
+import Play from './components/Play';
 import './App.css';
 
 function App () {
